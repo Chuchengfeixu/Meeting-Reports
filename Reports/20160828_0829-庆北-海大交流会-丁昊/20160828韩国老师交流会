@@ -1,0 +1,380 @@
+\documentclass{article}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%package
+
+%geometry
+\usepackage[a4paper]{geometry}%调整页面边距
+\geometry{left=3cm,right=3cm,top=3cm,bottom=3cm}
+\linespread{1.5}
+\usepackage{fancyhdr}%梦幻页眉
+
+%fonts
+\usepackage{fontspec}%字体库
+\defaultfontfeatures{Mapping=tex-text}
+\usepackage{xunicode,xltxtra}
+\usepackage[BoldFont,SlantFont,CJKnumber,CJKchecksingle]{xeCJK}  % \CJKnumber{12345}: 一万二千三百四十五
+\usepackage{CJKfntef}
+\usepackage{bm} %公式中的粗体字符\boldsymbol
+\usepackage{pifont}
+
+%color
+\usepackage{color,xcolor}
+\definecolor{GREEN}{RGB}{25,180,68}
+\definecolor{YELLOW}{RGB}{255,255,224}
+\definecolor{BLUE}{RGB}{9,148,234}
+\definecolor{RED}{RGB}{139,0,0}
+\definecolor{DRED}{RGB}{128,0,0}
+\definecolor{GREY}{RGB}{128,128,128}
+\usepackage[pagecolor={YELLOW}]{pagecolor}%设置页面底色
+
+%math
+\usepackage{amsmath,amsfonts,amssymb}
+
+%graphics
+\usepackage[americaninductors,europeanresistors]{circuitikz}
+\usepackage{tikz}%可以绘制各种坐标图，方格图
+\usetikzlibrary{positioning,arrows,shadows,shapes,calc,mindmap,trees,backgrounds}  % placements=positioning
+\usepackage{graphicx}%\includegraphics插图命令
+\usepackage{subfigure}  %%图形或表格并排排列
+
+% table
+\usepackage{colortbl,dcolumn}  %% 彩色表格
+\usepackage{multirow}
+\usepackage{multicol}
+\usepackage{booktabs}
+
+% code
+\usepackage{fancyvrb}%漂亮的代码包
+\usepackage{listings}%加入代码
+
+% ref
+\usepackage{hyperref}%扩展参考文献，目录功能和加入超链接。
+
+% title
+\usepackage{titlesec}%花哨的章节标题
+
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd{\ttlh@hang}{\parindent\z@}{\parindent\z@\leavevmode}{}{}
+\patchcmd{\ttlh@hang}{\noindent}{}{}{}
+\makeatother%titlesec旧版本无编号问题
+
+
+\titleformat
+{\section} % command
+[display] % shape
+{\bfseries\Large} % format
+{Section\ \thesection  } % label
+{0.3ex} % sep
+{
+    \rule{\textwidth}{1pt}
+    \vspace{1ex}
+    \centering
+} % before-code
+[
+\vspace{-2ex}%
+\rule{\textwidth}{1pt}
+] % after-code
+
+
+%tightly-packed lists
+\usepackage{mdwlist}
+\usepackage{verbatim}%comment命令的注释包
+%\usepackage{styles/zhfontcfg}%中文包
+\usepackage{styles/visionouclistings}
+\usepackage{styles/visionouccfg}
+
+% head/foot
+\setlength{\headheight}{15pt}
+
+\fancyhf{}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%settings
+\setCJKmainfont{Adobe Kaiti Std} %设置为楷体
+\setCJKmonofont{Adobe Fangsong Std}%仿宋
+%页眉页脚
+
+
+\makeatletter
+\def\headrule{{\if@fancyplain\let\headrulewidth\plainheadrulewidth\fi%
+\hrule\@height 2.5pt \@width\headwidth\vskip1pt%上面线为2.5pt粗  
+\hrule\@height 0.5pt\@width\headwidth  %下面0.5pt粗            
+\vskip-2\headrulewidth\vskip-1pt}      %两条线的距离        
+\vspace{6mm}}     %双线与下面正文之间的垂直间距              
+\makeatother         
+ 
+
+% graphics
+\graphicspath{{figures/}}
+\tikzset{
+    % Define standard arrow tip
+    >=stealth',
+    % Define style for boxes
+    punkt/.style={
+           rectangle,
+           rounded corners,
+           draw=black, very thick,
+           text width=6.5em,
+           minimum height=2em,
+           text centered},
+    % Define arrow style
+    pil/.style={
+           ->,
+           thick,
+           shorten <=2pt,
+           shorten >=2pt,},
+    % Define style for FlyZhyBall
+    FlyZhyBall/.style={
+      circle,
+      minimum size=6mm,
+      inner sep=0.5pt,
+      ball color=red!50!blue,
+      text=white,},
+    % Define style for FlyZhyRectangle
+    FlyZhyRectangle/.style={
+      rectangle,
+      rounded corners,
+      minimum size=6mm,
+      ball color=red!50!blue,
+      text=white,},
+    % Define style for zhyfly
+    zhyfly/.style={
+      rectangle,
+      rounded corners,
+      minimum size=6mm,
+      ball color=red!25!blue,
+      text=white,},
+    % Define style for new rectangle
+    nrectangle/.style={
+      rectangle,
+      draw=#1!50,
+      fill=#1!20,
+      minimum size=5mm,
+      inner sep=0.1pt,}
+}
+
+% code
+\lstnewenvironment{VHDLcode}[1][]{%
+  \lstset{
+    basicstyle=\footnotesize\ttfamily\color{black},%
+    columns=flexible,%
+    framexleftmargin=.7mm,frame=shadowbox,%
+    rulesepcolor=\color{blue},%
+%    frame=single,%
+    backgroundcolor=\color{yellow!20},%
+    xleftmargin=1.2\fboxsep,%
+    xrightmargin=.7\fboxsep,%
+    numberstyle=\tiny\color{blue},%
+    numberblanklines=false,numbersep=7pt,%
+    language=VHDL%
+    }\lstset{#1}}{}
+\lstnewenvironment{VHDLmiddle}[1][]{%
+  \lstset{
+    basicstyle=\scriptsize\ttfamily\color{black},%
+    columns=flexible,%
+    framexleftmargin=.7mm,frame=shadowbox,%
+    rulesepcolor=\color{blue},%
+%    frame=single,%
+    backgroundcolor=\color{yellow!20},%
+    xleftmargin=1.2\fboxsep,%
+    xrightmargin=.7\fboxsep,%
+    numbers=left,numberstyle=\tiny\color{blue},%
+    numberblanklines=false,numbersep=7pt,%
+    language=VHDL%
+    }\lstset{#1}}{}
+\lstnewenvironment{VHDLsmall}[1][]{%
+  \lstset{
+    basicstyle=\tiny\ttfamily\color{black},%
+    columns=flexible,%
+    framexleftmargin=.7mm,frame=shadowbox,%
+    rulesepcolor=\color{blue},%
+%    frame=single,%
+    backgroundcolor=\color{yellow!20},%
+    xleftmargin=1.2\fboxsep,%
+    xrightmargin=.7\fboxsep,%
+    numbers=left,numberstyle=\tiny\color{blue},%
+    numberblanklines=false,numbersep=7pt,%
+    language=VHDL%
+    }\lstset{#1}}{}
+% pdf
+\hypersetup{pdfauthor={Haiyong Zheng},%
+            pdftitle={Title},%
+            CJKbookmarks=true,%
+            bookmarksnumbered=true,%
+            bookmarksopen=false,%
+            plainpages=false,%
+            colorlinks=true,%
+            citecolor=green,%
+            filecolor=magenta,%
+            linkcolor=DRED,%red(default)
+            urlcolor=cyan}
+\newcommand\titlebar{%
+\tikz[baseline,trim left=3.1cm,trim right=3cm] {
+    \fill [cyan!25] (2.5cm,-1ex) rectangle (\textwidth+3.1cm,2.5ex);
+    \node [
+        fill=cyan!60!white,
+        anchor= base east,
+        rounded rectangle,
+        minimum height=3.5ex] at (3cm,0) {
+        \textbf{\thesection.}
+    };
+}%
+}
+
+%code
+\definecolor{mygreen}{rgb}{0,0.6,0}
+\definecolor{mygray}{rgb}{0.5,0.5,0.5}
+\definecolor{mymauve}{rgb}{0.58,0,0.82}
+\lstset{
+ backgroundcolor=\color{white}, 
+ basicstyle = \footnotesize,       
+ breakatwhitespace = false,        
+ breaklines = true,                 
+ captionpos = b,                    
+ commentstyle = \color{mygreen}\bfseries,
+ extendedchars = false,             
+ frame =shadowbox, 
+ framerule=0.5pt,
+ keepspaces=true,
+ keywordstyle=\color{blue}\bfseries, % keyword style
+ language = C++,                     % the language of code
+ otherkeywords={string}, 
+ numbers=left, 
+ numbersep=5pt,
+ numberstyle=\tiny\color{mygray},
+ rulecolor=\color{black},         
+ showspaces=false,  
+ showstringspaces=false, 
+ showtabs=false,    
+ stepnumber=1,         
+ stringstyle=\color{mymauve},        % string literal style
+ tabsize=2,          
+ title=\lstname                      
+}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%设置标题页面
+
+\newcommand*{\titleGM}{\begingroup % 新命令：添加标题页
+\hbox{ % 水平盒子
+\hspace*{0.2\textwidth} % 左边空白
+\rule{1pt}{\textheight\color{GREY}} % 竖线
+\hspace*{0.05\textwidth} % 竖线和文本距离
+\parbox[b]{0.75\textwidth}{ % 文本最大右边距
+
+{\noindent\Huge\bfseries Conference Meeting\\[0.5\baselineskip]with professor Minho Lee}\\[2\baselineskip] % 题目
+{\large \textit{from Kyungpook National University}}\\[4\baselineskip] % 标签或描述
+{\Large \textsc{Hao Ding}}\\ % 作者
+
+\vspace{0.5\textheight} % 题目区域和作者间距
+{\noindent August 2016 }\\[\baselineskip] % Publisher and logo
+}}
+\endgroup}
+
+
+                      
+\chead{\color{GREY}Conference Meeting of Exchanges and Cooperation}%页眉
+\cfoot{\color{GREY}August 2016}%页脚 中
+\lfoot{\color{GREY}Hao Ding}%页脚 左
+\rfoot{\color{GREY}$\cdot$\ Page \thepage\ }%页脚 右
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+
+\usepackage{styles/lshort}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+
+\author{Hao Ding}%作者
+\date{\vspace{-0.7em}2016.8\vspace{-0.7em}}%日期
+\titleGM\thispagestyle{empty}
+
+\pagenumbering{roman}
+
+\setcounter{page}{0}
+\newpage
+
+\begin{abstract}
+
+The conference lasts for two days with seven teachers and students giving their reports. Respectively are professor Minho Lee, professor Haiyong Zheng, teacher Min Fu, teacher Zhibin Yu and three postgraduate student Jialun Dai, Sangwook Kim and Jonghong Kim.
+
+Each of them gave a speech about their own work in Digital Image Processing. Besides, we had big discussions about the speeches.
+
+\end{abstract}
+\newpage
+
+\tableofcontents 
+\newpage
+
+\pagestyle{fancy}
+
+\pagenumbering{arabic}
+\newpage
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{August 28th}
+
+\subsection{Minho Lee}
+
+Minho Lee is a professor in Kyungpook National University (KNU). 
+
+Professor Lee indicated that technoledge nowadays have three key directions:
+
+\begin{itemize}
+\item Simple and easy technoledge
+\item Optional technoledge
+\item New business model
+\end{itemize}
+
+Which means that technoledge should be simplified in using and understanding. And the development of no matter what kind of technoledge can't be limited to one constant way. Last but not the least, as the example of Apple, we have to creat new business model to get propulsion development.
+
+He expressed that the main current at present is intellegence. As human, our brain have the ability to react to most signals that our body accept from the external environment. Then the brain is more like a headquarter, it gives a command so that we would generate different emotions, feelings and reactions.
+It works just like an "I/O" system. The perception and action is a circle without our consciousness. It's the goal of Deep Learning research that we expect the computer has the same or even better ability as the human brain's.
+
+Professor Lee gave many examples as well. My favourate one is that a robot could learn from a humanbeing by listening to him pointing and teaching what thing the subject on the table is and suggest your next pace. He mentioned that all of us have two eyes to estimate the distance and the movement of subjects in sight. But former devices have only one camera to catch pictures. Therefore the robot in the video is made of two cameras and that's why he can accurately follow directions. With deep learning, he has the intellegence to learn things. And like the input method we use to type, once you tell him you'll add milk to coffee, he will forwardly suggest you to have some milk when you want to drink coffee.
+
+The other direction is automatic drive using deep learning. But I missed most of the presentation this part.
+
+Professor Lee introduced that the three main breakthrough in his lab is algorithms, parallel computing and big data.
+
+\newpage
+
+\subsection{Haiyong Zheng}
+
+Our teacher Haiyong Zheng's speech has three main part. The first part is to introduce the city of Qingdao. The second part is about retinal imaging registration. And the third part is about alga classification.
+
+The second part about retinal imaging registration is profit to patients' eye disease. Professor Zheng tried to registering the former eye image with the sick eye image to find which part of the eye suffered from disease. 
+
+He summarized that retinal imaging registraion can be classified as two different method: intensity-based and feature-based. And the feature-based method is more popular than the other one. And if we want to improve the means, we have to add more features. But the contradiction is that once we use more features, the recognition would be more complex, and the accuracy of recognition would be inevitable declined.
+
+Then he introduced some work about alga classification.
+
+\newpage
+
+\section{August 29th}
+
+\subsection{Jialun Dai}
+
+My upperclassman Jialun Dai mainly introduced his work about alga classification. 
+
+Due to the lack of the samples, he did different kind of transformations to the sample images such as rotation, translation, rescaling, shearing and flipping. The transformations are used for testing the accuracy of his algorithms when the images are of various size and angle.
+
+He explained that different species may have similar features while same species of algas may have different features. So it's hard to tell one species of alga from another. Thus he used different means to classify them.
+
+\newpage
+
+\section{conclusion}
+
+All of the speechers made great speeches for us. 
+
+The first thing is that I deeply feel that I really lack of professional knowledge of my major. And I'm now eager to develop my english ability especially the listening part. My plan is to use english more often. I'll try to read more and watch more english files and videos.
+
+The second thing is that as far as I'm concerned, it's an important ability to raise questions. I'm fond of the environment when everyone is in one discussion.
+
+\end{document}
