@@ -1,0 +1,9 @@
+\frametitle{简介}
+    内插是一个通过已知的离散数据求未知数据的过程。
+
+    内插可以完成的功能：
+^^I\begin{itemize}
+^^I\item 缩放图像
+^^I\item 旋转图像
+^^I\item 几何矫正
+    ^^I\end{itemize}

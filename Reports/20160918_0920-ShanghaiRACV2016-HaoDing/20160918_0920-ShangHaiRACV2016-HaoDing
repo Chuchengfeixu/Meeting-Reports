@@ -1,0 +1,558 @@
+\documentclass{article}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%package
+
+%geometry
+\usepackage[a4paper]{geometry}%调整页面边距
+\geometry{left=3cm,right=3cm,top=3cm,bottom=3cm}
+\linespread{1.5}
+\usepackage{fancyhdr}%梦幻页眉
+
+%fonts
+\usepackage{fontspec}%字体库
+\defaultfontfeatures{Mapping=tex-text}
+\usepackage{xunicode,xltxtra}
+\usepackage[BoldFont,SlantFont,CJKnumber,CJKchecksingle]{xeCJK}  % \CJKnumber{12345}: 一万二千三百四十五
+\usepackage{CJKfntef}
+\usepackage{bm} %公式中的粗体字符\boldsymbol
+\usepackage{pifont}
+
+%color
+\usepackage{color,xcolor}
+\definecolor{GREEN}{RGB}{25,180,68}
+\definecolor{YELLOW}{RGB}{255,255,224}
+\definecolor{BLUE}{RGB}{9,148,234}
+\definecolor{RED}{RGB}{139,0,0}
+\definecolor{DRED}{RGB}{128,0,0}
+\definecolor{GREY}{RGB}{128,128,128}
+\usepackage[pagecolor={YELLOW}]{pagecolor}%设置页面底色
+
+%math
+\usepackage{amsmath,amsfonts,amssymb}
+
+%graphics
+\usepackage[americaninductors,europeanresistors]{circuitikz}
+\usepackage{tikz}%可以绘制各种坐标图，方格图
+\usetikzlibrary{positioning,arrows,shadows,shapes,calc,mindmap,trees,backgrounds}  % placements=positioning
+\usepackage{graphicx}%\includegraphics插图命令
+\usepackage{subfigure}  %%图形或表格并排排列
+
+% table
+\usepackage{colortbl,dcolumn}  %% 彩色表格
+\usepackage{multirow}
+\usepackage{multicol}
+\usepackage{booktabs}
+
+% code
+\usepackage{fancyvrb}%漂亮的代码包
+\usepackage{listings}%加入代码
+
+% ref
+\usepackage{hyperref}%扩展参考文献，目录功能和加入超链接。
+
+% title
+\usepackage{titlesec}%花哨的章节标题
+
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd{\ttlh@hang}{\parindent\z@}{\parindent\z@\leavevmode}{}{}
+\patchcmd{\ttlh@hang}{\noindent}{}{}{}
+\makeatother%titlesec旧版本无编号问题
+
+
+\titleformat
+{\section} % command
+[display] % shape
+{\bfseries\Large} % format
+{Section\ \thesection  } % label
+{0.3ex} % sep
+{
+    \rule{\textwidth}{1pt}
+    \vspace{1ex}
+    \centering
+} % before-code
+[
+\vspace{-2ex}%
+\rule{\textwidth}{1pt}
+] % after-code
+
+
+%tightly-packed lists
+\usepackage{mdwlist}
+\usepackage{verbatim}%comment命令的注释包
+%\usepackage{styles/zhfontcfg}%中文包
+\usepackage{styles/visionouclistings}
+\usepackage{styles/visionouccfg}
+
+% head/foot
+\setlength{\headheight}{15pt}
+
+\fancyhf{}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%settings
+\setCJKmainfont{Adobe Kaiti Std} %设置为楷体
+\setCJKmonofont{Adobe Fangsong Std}%仿宋
+%页眉页脚
+
+
+\makeatletter
+\def\headrule{{\if@fancyplain\let\headrulewidth\plainheadrulewidth\fi%
+\hrule\@height 2.5pt \@width\headwidth\vskip1pt%上面线为2.5pt粗  
+\hrule\@height 0.5pt\@width\headwidth  %下面0.5pt粗            
+\vskip-2\headrulewidth\vskip-1pt}      %两条线的距离        
+\vspace{6mm}}     %双线与下面正文之间的垂直间距              
+\makeatother         
+ 
+
+% graphics
+\graphicspath{{figures/}}
+\tikzset{
+    % Define standard arrow tip
+    >=stealth',
+    % Define style for boxes
+    punkt/.style={
+           rectangle,
+           rounded corners,
+           draw=black, very thick,
+           text width=6.5em,
+           minimum height=2em,
+           text centered},
+    % Define arrow style
+    pil/.style={
+           ->,
+           thick,
+           shorten <=2pt,
+           shorten >=2pt,},
+    % Define style for FlyZhyBall
+    FlyZhyBall/.style={
+      circle,
+      minimum size=6mm,
+      inner sep=0.5pt,
+      ball color=red!50!blue,
+      text=white,},
+    % Define style for FlyZhyRectangle
+    FlyZhyRectangle/.style={
+      rectangle,
+      rounded corners,
+      minimum size=6mm,
+      ball color=red!50!blue,
+      text=white,},
+    % Define style for zhyfly
+    zhyfly/.style={
+      rectangle,
+      rounded corners,
+      minimum size=6mm,
+      ball color=red!25!blue,
+      text=white,},
+    % Define style for new rectangle
+    nrectangle/.style={
+      rectangle,
+      draw=#1!50,
+      fill=#1!20,
+      minimum size=5mm,
+      inner sep=0.1pt,}
+}
+
+% code
+\lstnewenvironment{VHDLcode}[1][]{%
+  \lstset{
+    basicstyle=\footnotesize\ttfamily\color{black},%
+    columns=flexible,%
+    framexleftmargin=.7mm,frame=shadowbox,%
+    rulesepcolor=\color{blue},%
+%    frame=single,%
+    backgroundcolor=\color{yellow!20},%
+    xleftmargin=1.2\fboxsep,%
+    xrightmargin=.7\fboxsep,%
+    numberstyle=\tiny\color{blue},%
+    numberblanklines=false,numbersep=7pt,%
+    language=VHDL%
+    }\lstset{#1}}{}
+\lstnewenvironment{VHDLmiddle}[1][]{%
+  \lstset{
+    basicstyle=\scriptsize\ttfamily\color{black},%
+    columns=flexible,%
+    framexleftmargin=.7mm,frame=shadowbox,%
+    rulesepcolor=\color{blue},%
+%    frame=single,%
+    backgroundcolor=\color{yellow!20},%
+    xleftmargin=1.2\fboxsep,%
+    xrightmargin=.7\fboxsep,%
+    numbers=left,numberstyle=\tiny\color{blue},%
+    numberblanklines=false,numbersep=7pt,%
+    language=VHDL%
+    }\lstset{#1}}{}
+\lstnewenvironment{VHDLsmall}[1][]{%
+  \lstset{
+    basicstyle=\tiny\ttfamily\color{black},%
+    columns=flexible,%
+    framexleftmargin=.7mm,frame=shadowbox,%
+    rulesepcolor=\color{blue},%
+%    frame=single,%
+    backgroundcolor=\color{yellow!20},%
+    xleftmargin=1.2\fboxsep,%
+    xrightmargin=.7\fboxsep,%
+    numbers=left,numberstyle=\tiny\color{blue},%
+    numberblanklines=false,numbersep=7pt,%
+    language=VHDL%
+    }\lstset{#1}}{}
+% pdf
+\hypersetup{pdfauthor={Haiyong Zheng},%
+            pdftitle={Title},%
+            CJKbookmarks=true,%
+            bookmarksnumbered=true,%
+            bookmarksopen=false,%
+            plainpages=false,%
+            colorlinks=true,%
+            citecolor=green,%
+            filecolor=magenta,%
+            linkcolor=DRED,%red(default)
+            urlcolor=cyan}
+\newcommand\titlebar{%
+\tikz[baseline,trim left=3.1cm,trim right=3cm] {
+    \fill [cyan!25] (2.5cm,-1ex) rectangle (\textwidth+3.1cm,2.5ex);
+    \node [
+        fill=cyan!60!white,
+        anchor= base east,
+        rounded rectangle,
+        minimum height=3.5ex] at (3cm,0) {
+        \textbf{\thesection.}
+    };
+}%
+}
+
+%code
+\definecolor{mygreen}{rgb}{0,0.6,0}
+\definecolor{mygray}{rgb}{0.5,0.5,0.5}
+\definecolor{mymauve}{rgb}{0.58,0,0.82}
+\lstset{
+ backgroundcolor=\color{white}, 
+ basicstyle = \footnotesize,       
+ breakatwhitespace = false,        
+ breaklines = true,                 
+ captionpos = b,                    
+ commentstyle = \color{mygreen}\bfseries,
+ extendedchars = false,             
+ frame =shadowbox, 
+ framerule=0.5pt,
+ keepspaces=true,
+ keywordstyle=\color{blue}\bfseries, % keyword style
+ language = C++,                     % the language of code
+ otherkeywords={string}, 
+ numbers=left, 
+ numbersep=5pt,
+ numberstyle=\tiny\color{mygray},
+ rulecolor=\color{black},         
+ showspaces=false,  
+ showstringspaces=false, 
+ showtabs=false,    
+ stepnumber=1,         
+ stringstyle=\color{mymauve},        % string literal style
+ tabsize=2,          
+ title=\lstname                      
+}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%设置标题页面
+
+\newcommand*{\titleGM}{\begingroup % 新命令：添加标题页
+\hbox{ % 水平盒子
+\hspace*{0.2\textwidth} % 左边空白
+\rule{1pt}{\textheight\color{GREY}} % 竖线
+\hspace*{0.05\textwidth} % 竖线和文本距离
+\parbox[b]{0.75\textwidth}{ % 文本最大右边距
+
+{\noindent\Huge\bfseries RACV2016\\[0.5\baselineskip]Research and Application in Computer Vision}\\[2\baselineskip] % 题目
+{\large \textit{Shanghaitech China}}\\[4\baselineskip] % 标签或描述
+{\Large \textsc{Hao Ding}}\\ % 作者
+
+\vspace{0.5\textheight} % 题目区域和作者间距
+{\noindent Sep. 18-20,2016 }\\[\baselineskip] % Publisher and logo
+}}
+\endgroup}
+
+
+                      
+\chead{\color{GREY}RACV2016}%页眉
+\cfoot{\color{GREY}Sep. 18-20,2016}%页脚 中
+\lfoot{\color{GREY}Hao Ding}%页脚 左
+\rfoot{\color{GREY}$\cdot$\ Page \thepage\ }%页脚 右
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+
+\usepackage{styles/lshort}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+
+\author{Hao Ding}%作者
+\date{\vspace{-0.7em}2016.8\vspace{-0.7em}}%日期
+\titleGM\thispagestyle{empty}
+
+\pagenumbering{roman}
+
+\setcounter{page}{0}
+\newpage
+
+\begin{abstract}
+
+The conference is held by China Computer Federation(CCF) and lasts for three days. I'm glad to took part in the conference and I'll finish my report as soon as possible as I didn't forget the details.
+
+\end{abstract}
+\newpage
+
+\tableofcontents 
+\newpage
+
+\pagestyle{fancy}
+
+\pagenumbering{arabic}
+\newpage
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\part{Posters}
+\section{Sep. 18}
+
+Two o'clock in the afternoon on Sept. 18th, we come to the ShanghaiTech University to log in the conference. Then we browsed the posters from different university before dinner. Here I'll introduct several of them that I am intrested in.
+	\begin{figure}[!htb] %插图
+	\centering
+	\includegraphics[width=0.5\textwidth]{18/IMG_20160918_160340.jpg}
+	\caption{MLO/MLPF-LSTM:基于LSTM逐层多目标优化及多层概率融合的图像描述方法}
+	\label{fig:1}
+	\end{figure}
+
+	Explaination of nouns:
+	\begin{itemize}
+	\item{CNN} Convolutional Neural Network.To get the next tier of image by convolutional kernals.
+	\item{RNN} Recurrent neural network/Recursive neural network. RNN uses all-linked network to get the next image.
+	\item{LSTM} Long Short Time Memoring. LSTM is a method belongs to RNN. It imitates the human brain to memorize the previous images.
+	\end{itemize}
+
+	The figure \ref{fig:1} used deep learning to recognize objectives and to semantical analysis image. I firstly understood the main idea in deep learning after reading carfully to the details with the explaination from biaobiao.
+
+	The formally way to semantic analysis images is CNN + LSTM model. Though it gets good grades in concluding contents, it's not optimised enouph to get our goal because of its swallow network layer.
+
+	The original point in this poster is that the author used hierarchical optimization method to deeper the network. On the other side, he used multiple probability fusion way to avoid overfitting. Multiple probability fusion means to add three arguments named p1, p2, p3 in the network to make the deep neural network can be affected by the last and the swallow layers directly.
+
+	We can see that the method works from the data result on the poster.
+
+	\begin{figure}[!htb] %插图
+	\centering
+	\includegraphics[width=0.5\textwidth]{18/IMG_20160918_161514.jpg}
+	\caption{EVALUEATION TWO-STREAM CNN FOR VIDEO CLASSIFICATION}
+	\label{fig:2}
+	\end{figure}
+
+	The figure \ref{fig:2} is a poster aims to add label to videos. It uses two CNN to create the entire neural network. One is to proceed the spacial stream and the other is to proceed the current stream. The spatial stream takes individual video frames as network inputs and the temporal CNN takes stacked optical flows as input to capture the motion information.
+
+	In this research, the author innovaionally used ratial connection to build the neural network. Which means to disconnect the joints between the layers by a proportion to avoid overfitting.
+
+	\begin{figure}[!htb] %插图
+	\centering
+	\includegraphics[width=0.5\textwidth]{18/IMG_20160918_163252.jpg}
+	\caption{DehazeNet:An End-to-End System for Single Image Haze Removal}
+	\label{fig:3}
+	\end{figure}
+
+	The figure \ref{fig:3} is about dehaze algorithm. I don't understand all of the formulaes, but the method looks great in comparation to the other methods.
+
+	\begin{figure}[!htb] %插图
+	\centering
+	\includegraphics[width=0.5\textwidth]{18/IMG_20160918_163832.jpg}
+	\caption{Instance-level Coupled Subspace Learning for Fine-grained Sketch-based Image Retrieval}
+	\label{fig:4}
+	\end{figure}
+
+	The poster \ref{fig:4} is the one most close to my direction. The main point is to matching a sketch to a real object. The classification isn't simply classify what the sketch is. It also considers the outlook features to get its material object.
+	
+	The author firstly extracts several features from both the sketch and the object. Then he tries to match them in the feature space. The result says the higher k is, the higher accuracy we'll get. The decline string in the picture is because over flitting.
+	
+	Acctually, the accuracy can't meet the result of deep learning. However, as for a same dataset, the deep learning method has to run for more than one week while this method needs less than one second. Considering the time, the tiny distance in accuracy can be ignored.
+
+	\begin{figure}[!htb] %插图
+	\centering
+	\includegraphics[width=0.5\textwidth]{18/IMG_20160918_165759.jpg}
+	\caption{Learning Semi-Supervised Representation Towards a Unified Optimization Framework for Semi-Supervised Learning}
+	\label{fig:5}
+	\end{figure}
+
+	One of the main references of my graduation project is witten by professor ChunGuang Li. Thus I'm grateful to see himself here. The poster mainly uses SRC through semi-supervised learning to recognize human faces in condition of lacking labels.	
+
+	The kernel of this algorithm is a STSSL framework. The arguments in the framework lets the output of images each time to get more similar conscequence by the scanties of images with label. Then we label the found ones so that we can get more and more labeled images.
+	
+	The experiment runs on the four classical datasets named ORL, Yale，Extended Yale B and CMU PIE. The more we run the framework, the more labels we can get, and the higher accuracy we will reach. To my surprise, with such tiny sample size, the result accuracy is so close to the accuracy I got by SRC with more than 50\% testing samples.
+
+	\begin{figure}[!htb] %插图
+	\centering
+	\includegraphics[width=0.5\textwidth]{18/IMG_20160918_171325.jpg}
+	\caption{Representative Vector Machines:A Unified Framework for Classical Classifiers}
+	\label{fig:6}
+	\end{figure}
+
+	The figure \ref{fig:6} is the most understandable one for me and the easier one in teacher Yu's opinion. It introduces nearest neighbor classifier(NN), nearest centriod classifier(NC), nearest feature line classifier(NFL) and nearest feature space classifier(NFS). Then the author summarized all of the classifiers to one formular. He created a new operator based on NN and SVM as well.
+
+	\begin{figure}[!htb] %插图
+	\centering
+	\includegraphics[width=0.5\textwidth]{18/IMG_20160918_172253.jpg}
+	\caption{Feature Selection Based on Structured Sparsity:A Comprehensive Study}
+	\label{fig:7}
+	\end{figure}
+
+	Figure \ref{fig:7} is written by the same author as the last one. But I didn't follow it carfully. It's about feature selection.
+
+\newpage
+\part{Reports}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
+\section{Sep. 19}
+
+\subsection{Lihi Zelnik-Manor}
+
+Lihi Zelnik-Manor is one of the two forein professors. The title of her lecture is Separating the Wheat from the Chaff Visual Data.
+	\begin{figure}[!htb] %插图
+	\centering
+	\includegraphics[width=0.5\textwidth]{19/IMG_20160919_091539.jpg}
+	\caption{Separating the Wheat from the Chaff Visual Data}
+	\label{fig:8}
+	\end{figure}
+
+	Professor Lihi's work can be separated to two main work. Firstly she tried to select the best picture which can best describe the images. The second work is to extract the main pixels from the whole image.
+ 
+	Lihi explained that when we look at a picture or a video, we just focus on one object at once. We always focus on the pattern distinctness, color distinctness, organization priors and objects or faces.
+
+	Thus it's important to correctly extract the most important object from a image. Here are some results before:
+	
+	\begin{figure}[!htb] %插图
+	\centering
+	\includegraphics[width=0.5\textwidth]{19/IMG_20160919_093840.jpg}
+	\caption{Separating the Wheat from the Chaff Visual Data}
+	\label{fig:9}
+	\end{figure}
+
+Lower is better and the video saliency methods are no better than just use the center. It's interesting isn't it? 
+
+So Lihi then try to conclude the real focus of a video or an image. The results are as follows:
+
+	\begin{figure}[!htb] %插图
+	\centering
+	\includegraphics[width=0.5\textwidth]{19/IMG_20160919_094511.jpg}
+	\caption{Separating the Wheat from the Chaff Visual Data}
+	\label{fig:10}
+	\end{figure}
+
+This seems better.She then claimed that video is different from image. Video is not just a set of images and video saliency can be predicted. 
+
+\subsection{JiaYa Jia}
+
+JiaYa Jia mainly introduced his works during these years, which is familiar with me that I've seen the work in our lab for more than one time. The name of his topic is Computer Vision that Mimics and Surpasses Human Ability.
+
+He said that the computer vision can be divided to three main level: Low-level vision, Middle-level Vision and High-level Vision. He also did lots of work in photo editing and enhancement, rolling guidance filter for deblurring and vision and language. 
+
+	\begin{figure}[!htb] %插图
+	\centering
+	\includegraphics[width=0.5\textwidth]{19/IMG_20160919_100935.jpg}
+	\caption{Computer Vision that Mimics and Surpasses Human Ability}
+	\label{fig:11}
+	\end{figure}
+
+Professor Jia explained that many vision tasks require very detailed pixel processing hat is beyond human ability. Besides, high-level vision needs large data and good learning models-learning human ability is also challenging.
+
+\subsection{Specially invitaion}
+
+Lin Mei mainly discussed the application of AR and VR. 
+
+Augmented Reality(AR) is a live direct or indirect view of a physical, real-world environment whose elements are augmented(or supplimented) by computer-generated sensory input such as sound, video, graphics or GPS data.
+
+Lin Mei refered to Pokemon Go, which is my most expect game. He said the game isn't approached to the kernel of AR but attracts millions of fans. So the AR field surely has bright future.
+
+	\begin{figure}[!htb] %插图
+	\centering
+	\includegraphics[width=0.5\textwidth]{19/IMG_20160919_113510.jpg}
+	\caption{AR and Games}
+	\label{fig:12}
+	\end{figure}
+
+Prof. Xi Li is the second speaker of the specially invitation. He showed us an interesting picture contains different fields in computer learning. 
+
+	\begin{figure}[!htb] %插图
+	\centering
+	\includegraphics[width=0.5\textwidth]{19/IMG_20160919_113510.jpg}
+	\caption{AI-Driven Visual Understanding and Computing}
+	\label{fig:13}
+	\end{figure}
+
+Xi Li wants to let the machine "think" like a human brain and understand the vision data. 
+
+	\begin{figure}[!htb] %插图
+	\centering
+	\includegraphics[width=0.5\textwidth]{19/IMG_20160919_120152.jpg}
+	\caption{AI-Driven Visual Understanding and Computing}
+	\label{fig:14}
+	\end{figure}
+
+Then he introduced GoogleNet. I learned that its a popular deep learning network recently. He also mentioned object detection, machine intelligence, object tracking and several other projects.
+
+\subsection{ShiGuang Shan}
+
+Prof. ShiGuang Shan made his speech of “基于深度学习的人脸检测与识别进展及开放问题” .
+
+He primarily introduced how to recognize human face under complex condition and the progress we have obtained in combining traditional method and deep learning.
+
+Surveillance Human Action Dataset(SHAD) is a video dataset to monitor pedestrian actions. The dataset contains more than 300 videos with complete label.
+
+I think his work is extraordinary useful because it aimes at solving public security problems. 
+
+	\begin{figure}[!htb] %插图
+	\centering
+	\includegraphics[width=0.5\textwidth]{19/IMG_20160919_163447.jpg}
+	\caption{Public Security \& Machine Learning}
+	\label{fig:15}
+	\end{figure}
+
+\newpage
+
+\section{Sep. 20}
+
+\subsection{Long Quan}
+
+Long Quan is a Professor of the Department of Computer Science and Engineering at the Hong Kong University of Science and Technology(HKUST). The title of his lecture is Mapping the World with Drones.
+
+At the beginning, he put up with several questions: What are visual features? Where is the camera? What is the depth? What is segmentation and object recognition?
+
+Computer Vision has three stages:
+
+	\begin{figure}[!htb] %插图
+	\centering
+	\includegraphics[width=0.5\textwidth]{20/IMG_20160920_084930.jpg}
+	\caption{Three stages of Computer Vision development}
+	\label{fig:16}
+	\end{figure}
+
+	\begin{figure}[!htb] %插图
+	\centering
+	\includegraphics[width=0.5\textwidth]{20/IMG_20160920_085255.jpg}
+	\caption{A 'Modern' Approach to Computer Vision}
+	\label{fig:17}
+	\end{figure}
+
+	\begin{figure}[!htb] %插图
+	\centering
+	\includegraphics[width=0.5\textwidth]{20/IMG_20160920_085420.jpg}
+	\caption{The fundamental vision topics}
+	\label{fig:18}
+	\end{figure}
+
+He concluded that Computer Vision is fast evolving. His lab is slightly leading at the world stage, and he'll continue to innovate based on their HKUST worldclass lab.
+
+\section{conclusion}
+
+All of the speechers made great speeches for us. 
+
+The first thing is that I deeply feel that I really lack of professional knowledge of my major. And I'm now eager to develop my english ability especially the listening part. My plan is to use english more often. I'll try to read more and watch more english files and videos.
+
+The second thing is that I finally touched the best professors and the best researches in my field. That's excited and will stimulate my study.
+
+\end{document}

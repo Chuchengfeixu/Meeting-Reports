@@ -1,0 +1,9 @@
+\frametitle{Brief Introduction}
+    Image interpolation is a method of constructing new data points within the range of a discrete set of known data points.
+
+    Functions:
+^^I\begin{itemize}
+^^I\item Scaling
+^^I\item Rotate
+^^I\item Geometric Correction
+    ^^I\end{itemize}
